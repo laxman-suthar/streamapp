@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  django:
+    build: .
+    container_name: logstream_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./logs:/var/log/app_logs

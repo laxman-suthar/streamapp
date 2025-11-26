@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Real-Time Log Stream</h2>
+    <pre id="logBox"></pre>
+
+    <script>
+        const logBox = document.getElementById("logBox");
+        const source = new EventSource("/logs/stream/");
+
+        source.onmessage = function (e) {
+            logBox.textContent += e.data + "\n";
+            logBox.scrollTop = logBox.scrollHeight;
+        };
+    </script>
+</body>
+</html>
