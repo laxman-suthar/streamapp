@@ -1,4 +1,4 @@
-name: Deploy Django App
+name: Deploy Django Docker App
 
 on:
   push:
@@ -18,11 +18,4 @@ jobs:
           key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/your-django-project
-            git fetch --all
-            git reset --hard origin/main
-            source venv/bin/activate
-            pip install -r requirements.txt
-            python manage.py migrate
-            python manage.py collectstatic --noinput
-            sudo systemctl restart gunicorn
-            sudo systemctl restart nginx
+            ./deploy.sh
