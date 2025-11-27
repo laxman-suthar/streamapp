@@ -1,4 +1,4 @@
-name: Deploy LogStream App
+name: Deploy Django App
 
 on:
   push:
@@ -10,12 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Connect to Server & Deploy
+      - name: Connect to EC2 & Deploy
         uses: appleboy/ssh-action@v0.1.8
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
           script: |
-            cd /your/app/path
-            ./deploy.sh
+            cd /home/ubuntu/your-django-project
+            git fetch --all
+            git reset --hard origin/main
+            source venv/bin/activate
+            pip install -r requirements.txt
+            python manage.py migrate
+            python manage.py collectstatic --noinput
+            sudo systemctl restart gunicorn
+            sudo systemctl restart nginx
