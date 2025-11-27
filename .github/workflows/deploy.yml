@@ -17,5 +17,5 @@ jobs:
           username: ${{ secrets.AWS_USER }}
           key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
           script: |
-            cd /home/ubuntu/your-django-project
-            ./deploy.sh
+            cd ~/streamapp
+            deploy.sh
